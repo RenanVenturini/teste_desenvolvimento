@@ -8,6 +8,7 @@ namespace AplicaçãoWebCompleta.Data
         public AplicaçãoWebContext(DbContextOptions<AplicaçãoWebContext> options) : base(options) { }
 
         public DbSet<CadastroUsuario> Usuarios { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -16,8 +17,22 @@ namespace AplicaçãoWebCompleta.Data
             modelBuilder.Entity<CadastroUsuario>(entity =>
             {
                 entity.ToTable("TbCadastroUsuario");
+                entity.HasKey(x => x.UsuarioId);
 
-                entity.HasKey(x => x.Id);
+                entity.HasOne(e => e.Endereco)
+                      .WithOne(e => e.Usuario)
+                      .HasForeignKey<Endereco>(e => e.UsuarioId);
+            });
+
+            modelBuilder.Entity<Endereco>(entity =>
+            {
+                entity.ToTable("TbEndereco");
+                entity.HasKey(x => x.EnderecoId);
+
+                entity.HasOne(e => e.Usuario)
+                      .WithOne(u => u.Endereco)
+                      .HasForeignKey<Endereco>(e => e.UsuarioId)
+                      .IsRequired(); 
             });
         }
     }

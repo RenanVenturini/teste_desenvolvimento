@@ -29,7 +29,7 @@ namespace AplicaçãoWebCompleta.Data.Repositoy
             => await _context.Usuarios.ToListAsync();
 
         public async Task<CadastroUsuario> BuscarUsuarioPorIdAsync(int id)
-            => await _context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
+            => await _context.Usuarios.FirstOrDefaultAsync(x => x.UsuarioId == id);
 
         public async Task RemoverUsuarioAsync(CadastroUsuario usuario)
         {

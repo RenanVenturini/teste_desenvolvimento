@@ -290,7 +290,6 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal("renan@teste.com", result.Email);
                 Assert.Equal("123456789", result.Telefone);
 
-                // Verifica se o endereço também foi carregado corretamente
                 Assert.NotNull(result.Endereco);
                 Assert.Equal("111111111", result.Endereco.CEP);
                 Assert.Equal("Sofia", result.Endereco.Rua);

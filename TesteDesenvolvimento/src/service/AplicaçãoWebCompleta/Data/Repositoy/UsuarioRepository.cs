@@ -33,17 +33,8 @@ namespace AplicaçãoWebCompleta.Data.Repositoy
 
         public async Task RemoverUsuarioAsync(CadastroUsuario usuario)
         {
-            // Verifica se o usuário possui um endereço associado a ele
-            if (usuario.Endereco != null)
-            {
-                // Remove o endereço associado ao usuário
-                _context.Enderecos.Remove(usuario.Endereco);
-            }
-
-            // Remove o usuário
             _context.Usuarios.Remove(usuario);
 
-            // Salva as alterações no banco de dados
             await _context.SaveChangesAsync();
         }
     }

@@ -9,9 +9,14 @@ namespace AplicaçãoWebCompleta.Data.Mappings_Profiles
     {
         public UsuarioProfiles()
         {
-            CreateMap<AtualizarUsuarioRequest, CadastroUsuario>();
-            CreateMap<UsuarioRequest, CadastroUsuario>();
-            CreateMap<CadastroUsuario, UsuarioResponse>();
+            CreateMap<AtualizarUsuarioRequest, CadastroUsuario>()
+                .ForMember(dest => dest.Endereco, opt => opt.MapFrom(src => src.EnderecoRequest));
+            CreateMap<UsuarioRequest, CadastroUsuario>()
+                .ForMember(dest => dest.Endereco, opt => opt.MapFrom(src => src.EnderecoRequest));
+            CreateMap<CadastroUsuario, UsuarioResponse>()
+                .ForMember(dest => dest.EnderecoResponse, opt => opt.MapFrom(src => src.Endereco));
+            CreateMap<EnderecoRequest, Endereco>();
+            CreateMap<Endereco, EnderecoResponse>();
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace AplicaçãoWebCompleta.Models.Request
 {
-    public class EnderecoRequest
+    public class AtualizarEnderecoRequest
     {
+        public int EnderecoId { get; set; }
         public string CEP { get; set; }
         public string Rua { get; set; }
         public string Numero { get; set; }

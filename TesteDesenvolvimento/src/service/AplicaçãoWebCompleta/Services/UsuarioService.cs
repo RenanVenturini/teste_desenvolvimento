@@ -3,6 +3,7 @@ using AplicaçãoWebCompleta.Data.Table;
 using AplicaçãoWebCompleta.Models.Request;
 using AplicaçãoWebCompleta.Models.Response;
 using AplicaçãoWebCompleta.Services.Interface;
+using AplicaçãoWebCompleta.Validators;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,12 +22,24 @@ namespace AplicaçãoWebCompleta.Services
 
         public async Task CriarUsuarioAsync(UsuarioRequest usuarioRequest)
         {
+            var validator = new UsuarioRequestValidator()
+                .Validate(usuarioRequest);
+
+            if (!validator.IsValid)
+                throw new BadHttpRequestException(validator.Errors.FirstOrDefault().ErrorMessage);
+
             var usuario = _mapper.Map<CadastroUsuario>(usuarioRequest);
             await _usuarioRepository.CriarUsuarioAsync(usuario);
         }
 
         public async Task AtualizarUsuarioAsync(AtualizarUsuarioRequest atualizarUsuarioRequest)
         {
+            var validator = new AtualizarUsuarioRequestValidator()
+                .Validate(atualizarUsuarioRequest);
+
+            if (!validator.IsValid)
+                throw new BadHttpRequestException(validator.Errors.FirstOrDefault().ErrorMessage);
+
             var usuario = _mapper.Map<CadastroUsuario>(atualizarUsuarioRequest);
             await _usuarioRepository.AtualizarUsuarioAsync(usuario);
         }

@@ -23,7 +23,7 @@ namespace AplicaçãoWebCompletaTeste.Service
         {
             // Arrange
             var fakeEndereco = new Faker<EnderecoRequest>()
-                .RuleFor(fake => fake.CEP, "123456789")
+                .RuleFor(fake => fake.CEP, "09321-250")
                 .RuleFor(fake => fake.Rua, "Projetada")
                 .RuleFor(fake => fake.Numero, "118")
                 .RuleFor(fake => fake.Complemento, "Casa")
@@ -34,7 +34,7 @@ namespace AplicaçãoWebCompletaTeste.Service
             var fakeUsuarioFaker = new Faker<UsuarioRequest>()
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
-                .RuleFor(fake => fake.Telefone, "974991481")
+                .RuleFor(fake => fake.Telefone, "(11)97499-1481")
                 .RuleFor(fake => fake.EnderecoRequest, () => fakeEndereco.Generate());
 
             var fakeUsuario = fakeUsuarioFaker.Generate();
@@ -77,8 +77,9 @@ namespace AplicaçãoWebCompletaTeste.Service
         public async Task AtualizarUsuarioAsync()
         {
             // Arrange
-            var fakeAtualizarEndereco = new Faker<EnderecoRequest>()
-                .RuleFor(fake => fake.CEP, "123456789")
+            var fakeAtualizarEndereco = new Faker<AtualizarEnderecoRequest>()
+                .RuleFor(fake => fake.EnderecoId, 1)
+                .RuleFor(fake => fake.CEP, "09321-250")
                 .RuleFor(fake => fake.Rua, "Projetada")
                 .RuleFor(fake => fake.Numero, "118")
                 .RuleFor(fake => fake.Complemento, "Casa")
@@ -90,8 +91,8 @@ namespace AplicaçãoWebCompletaTeste.Service
                 .RuleFor(fake => fake.UsuarioId, 1)
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
-                .RuleFor(fake => fake.Telefone, "974991481")
-                .RuleFor(fake => fake.EnderecoRequest, () => fakeAtualizarEndereco.Generate());
+                .RuleFor(fake => fake.Telefone, "(11)97499-1481")
+                .RuleFor(fake => fake.AtualizarEnderecoRequest, () => fakeAtualizarEndereco.Generate());
 
             var fakeUsuarioAtualizado = fakeAtualizarUsuarioRequest.Generate();
 
@@ -110,17 +111,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "123456789",
-                        Rua = "Projetada",
-                        Numero = "100",
-                        Complemento = "Casa",
-                        Bairro = "Jardim",
-                        Cidade = "Santo André",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481",
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 1,
+                    UsuarioId = 1,
+                    CEP = "09321-250",
+                    Rua = "Projetada",
+                    Numero = "100",
+                    Complemento = "Casa",
+                    Bairro = "Jardim",
+                    Cidade = "Santo André",
+                    UF = "SP"
                 });
                 await context.SaveChangesAsync();
             }
@@ -141,13 +145,13 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal(fakeUsuarioAtualizado.Telefone, result.Telefone);
 
                 Assert.NotNull(result.Endereco);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.CEP, result.Endereco.CEP);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.Rua, result.Endereco.Rua);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.Numero, result.Endereco.Numero);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.Complemento, result.Endereco.Complemento);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.Bairro, result.Endereco.Bairro);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.Cidade, result.Endereco.Cidade);
-                Assert.Equal(fakeUsuarioAtualizado.EnderecoRequest.UF, result.Endereco.UF);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.CEP, result.Endereco.CEP);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Rua, result.Endereco.Rua);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Numero, result.Endereco.Numero);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Complemento, result.Endereco.Complemento);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Bairro, result.Endereco.Bairro);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Cidade, result.Endereco.Cidade);
+                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.UF, result.Endereco.UF);
             }
         }
 
@@ -166,17 +170,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "123456789",
-                        Rua = "Projetada",
-                        Numero = "100",
-                        Complemento = "Casa",
-                        Bairro = "Jardim",
-                        Cidade = "Santo André",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 1,
+                    UsuarioId = 1,
+                    CEP = "09321-250",
+                    Rua = "Projetada",
+                    Numero = "100",
+                    Complemento = "Casa",
+                    Bairro = "Jardim",
+                    Cidade = "Santo André",
+                    UF = "SP"
                 });
 
                 context.Usuarios.Add(new CadastroUsuario
@@ -184,17 +191,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "111111111",
-                        Rua = "Sofia",
-                        Numero = "118",
-                        Complemento = "Casa",
-                        Bairro = "Maringa",
-                        Cidade = "Mauá",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 2,
+                    UsuarioId = 2,
+                    CEP = "09321-250",
+                    Rua = "Sofia",
+                    Numero = "118",
+                    Complemento = "Casa",
+                    Bairro = "Maringa",
+                    Cidade = "Mauá",
+                    UF = "SP"
                 });
                 await context.SaveChangesAsync();
             }
@@ -218,10 +228,10 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(usuario1);
                 Assert.Equal("Jose", usuario1.Nome);
                 Assert.Equal("jose@teste.com", usuario1.Email);
-                Assert.Equal("123456789", usuario1.Telefone);
+                Assert.Equal("(11)97499-1481", usuario1.Telefone);
 
                 Assert.NotNull(usuario1.EnderecoResponse);
-                Assert.Equal("123456789", usuario1.EnderecoResponse.CEP);
+                Assert.Equal("09321-250", usuario1.EnderecoResponse.CEP);
                 Assert.Equal("Projetada", usuario1.EnderecoResponse.Rua);
                 Assert.Equal("100", usuario1.EnderecoResponse.Numero);
                 Assert.Equal("Casa", usuario1.EnderecoResponse.Complemento);
@@ -233,10 +243,10 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(usuario2);
                 Assert.Equal("Renan", usuario2.Nome);
                 Assert.Equal("renan@teste.com", usuario2.Email);
-                Assert.Equal("123456789", usuario2.Telefone);
+                Assert.Equal("(11)97499-1481", usuario2.Telefone);
 
                 Assert.NotNull(usuario2.EnderecoResponse);
-                Assert.Equal("111111111", usuario2.EnderecoResponse.CEP);
+                Assert.Equal("09321-250", usuario2.EnderecoResponse.CEP);
                 Assert.Equal("Sofia", usuario2.EnderecoResponse.Rua);
                 Assert.Equal("118", usuario2.EnderecoResponse.Numero);
                 Assert.Equal("Casa", usuario2.EnderecoResponse.Complemento);
@@ -261,17 +271,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "123456789",
-                        Rua = "Projetada",
-                        Numero = "100",
-                        Complemento = "Casa",
-                        Bairro = "Jardim",
-                        Cidade = "Santo André",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 1,
+                    UsuarioId = 1,
+                    CEP = "09321-250",
+                    Rua = "Projetada",
+                    Numero = "100",
+                    Complemento = "Casa",
+                    Bairro = "Jardim",
+                    Cidade = "Santo André",
+                    UF = "SP"
                 });
 
                 context.Usuarios.Add(new CadastroUsuario
@@ -279,17 +292,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "111111111",
-                        Rua = "Sofia",
-                        Numero = "118",
-                        Complemento = "Casa",
-                        Bairro = "Maringa",
-                        Cidade = "Mauá",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 2,
+                    UsuarioId = 2,
+                    CEP = "09321-250",
+                    Rua = "Sofia",
+                    Numero = "118",
+                    Complemento = "Casa",
+                    Bairro = "Maringa",
+                    Cidade = "Mauá",
+                    UF = "SP"
                 });
                 await context.SaveChangesAsync();
             }
@@ -309,10 +325,10 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(result);
                 Assert.Equal("Renan", result.Nome);
                 Assert.Equal("renan@teste.com", result.Email);
-                Assert.Equal("123456789", result.Telefone);
+                Assert.Equal("(11)97499-1481", result.Telefone);
 
                 Assert.NotNull(result.EnderecoResponse);
-                Assert.Equal("111111111", result.EnderecoResponse.CEP);
+                Assert.Equal("09321-250", result.EnderecoResponse.CEP);
                 Assert.Equal("Sofia", result.EnderecoResponse.Rua);
                 Assert.Equal("118", result.EnderecoResponse.Numero);
                 Assert.Equal("Casa", result.EnderecoResponse.Complemento);
@@ -337,17 +353,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "123456789",
-                        Rua = "Projetada",
-                        Numero = "100",
-                        Complemento = "Casa",
-                        Bairro = "Jardim",
-                        Cidade = "Santo André",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 1,
+                    UsuarioId = 1,
+                    CEP = "09321-250",
+                    Rua = "Projetada",
+                    Numero = "100",
+                    Complemento = "Casa",
+                    Bairro = "Jardim",
+                    Cidade = "Santo André",
+                    UF = "SP"
                 });
 
                 context.Usuarios.Add(new CadastroUsuario
@@ -355,17 +374,20 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "123456789",
-                    Endereco = new Endereco
-                    {
-                        CEP = "111111111",
-                        Rua = "Sofia",
-                        Numero = "118",
-                        Complemento = "Casa",
-                        Bairro = "Maringa",
-                        Cidade = "Mauá",
-                        UF = "SP"
-                    }
+                    Telefone = "(11)97499-1481"
+                });
+
+                context.Enderecos.Add(new Endereco
+                {
+                    EnderecoId = 2,
+                    UsuarioId = 2,
+                    CEP = "09321-250",
+                    Rua = "Sofia",
+                    Numero = "118",
+                    Complemento = "Casa",
+                    Bairro = "Maringa",
+                    Cidade = "Mauá",
+                    UF = "SP"
                 });
                 await context.SaveChangesAsync();
             }

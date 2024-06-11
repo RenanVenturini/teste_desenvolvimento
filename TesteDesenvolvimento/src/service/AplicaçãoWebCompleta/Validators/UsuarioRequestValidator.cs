@@ -17,8 +17,7 @@ namespace AplicaçãoWebCompleta.Validators
 
             RuleFor(u => u.Telefone)
                 .NotEmpty().WithMessage("O Telefone é obrigatório.")
-                .Matches(@"^\(\d{2}\)\d{5}-\d{4}$|^\(\d{2}\)\d{4}-\d{4}$").WithMessage("O Telefone deve estar no formato (XX)XXXXX-XXXX ou (XX)XXXX-XXXX.");
-
+                .Matches(@"^\d{11}$").WithMessage("O Telefone deve conter exatamente 11 dígitos numéricos.");
 
             RuleFor(u => u.EnderecoRequest)
                 .NotNull().WithMessage("O Endereço é obrigatório.")

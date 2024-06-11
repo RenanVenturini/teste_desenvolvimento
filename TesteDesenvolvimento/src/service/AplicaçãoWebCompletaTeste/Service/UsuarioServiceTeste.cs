@@ -4,10 +4,12 @@ using AplicaçãoWebCompleta.Data.Repositoy;
 using AplicaçãoWebCompleta.Data.Table;
 using AplicaçãoWebCompleta.Models.Request;
 using AplicaçãoWebCompleta.Services;
+using AplicaçãoWebCompleta.Services.Interface;
 using AutoMapper;
 using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace AplicaçãoWebCompletaTeste.Service
         {
             // Arrange
             var fakeEndereco = new Faker<EnderecoRequest>()
-                .RuleFor(fake => fake.CEP, "09321-250")
+                .RuleFor(fake => fake.CEP, "09321250")
                 .RuleFor(fake => fake.Rua, "Projetada")
                 .RuleFor(fake => fake.Numero, "118")
                 .RuleFor(fake => fake.Complemento, "Casa")
@@ -34,7 +36,7 @@ namespace AplicaçãoWebCompletaTeste.Service
             var fakeUsuarioFaker = new Faker<UsuarioRequest>()
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
-                .RuleFor(fake => fake.Telefone, "(11)97499-1481")
+                .RuleFor(fake => fake.Telefone, "11974991481")
                 .RuleFor(fake => fake.EnderecoRequest, () => fakeEndereco.Generate());
 
             var fakeUsuario = fakeUsuarioFaker.Generate();
@@ -49,7 +51,7 @@ namespace AplicaçãoWebCompletaTeste.Service
 
             using (var context = new AplicaçãoWebContext(options))
             {
-                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config));
+                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
                 // Act
                 await usuarioService.CriarUsuarioAsync(fakeUsuario);
@@ -79,7 +81,7 @@ namespace AplicaçãoWebCompletaTeste.Service
             // Arrange
             var fakeAtualizarEndereco = new Faker<AtualizarEnderecoRequest>()
                 .RuleFor(fake => fake.EnderecoId, 1)
-                .RuleFor(fake => fake.CEP, "09321-250")
+                .RuleFor(fake => fake.CEP, "09321250")
                 .RuleFor(fake => fake.Rua, "Projetada")
                 .RuleFor(fake => fake.Numero, "118")
                 .RuleFor(fake => fake.Complemento, "Casa")
@@ -91,7 +93,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 .RuleFor(fake => fake.UsuarioId, 1)
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
-                .RuleFor(fake => fake.Telefone, "(11)97499-1481")
+                .RuleFor(fake => fake.Telefone, "11974991481")
                 .RuleFor(fake => fake.AtualizarEnderecoRequest, () => fakeAtualizarEndereco.Generate());
 
             var fakeUsuarioAtualizado = fakeAtualizarUsuarioRequest.Generate();
@@ -111,14 +113,14 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "(11)97499-1481",
+                    Telefone = "11974991481",
                 });
 
                 context.Enderecos.Add(new Endereco
                 {
                     EnderecoId = 1,
                     UsuarioId = 1,
-                    CEP = "09321-250",
+                    CEP = "09321250",
                     Rua = "Projetada",
                     Numero = "100",
                     Complemento = "Casa",
@@ -131,7 +133,7 @@ namespace AplicaçãoWebCompletaTeste.Service
 
             using (var context = new AplicaçãoWebContext(options))
             {
-                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config));
+                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
                 // Act
                 await usuarioService.AtualizarUsuarioAsync(fakeUsuarioAtualizado);
@@ -170,7 +172,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -191,7 +193,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -215,7 +217,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     cfg.AddProfile(new UsuarioProfiles());
                 });
 
-                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config));
+                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
                 // Act
                 var result = await usuarioService.ListarUsuarioAsync();
@@ -228,7 +230,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(usuario1);
                 Assert.Equal("Jose", usuario1.Nome);
                 Assert.Equal("jose@teste.com", usuario1.Email);
-                Assert.Equal("(11)97499-1481", usuario1.Telefone);
+                Assert.Equal("11974991481", usuario1.Telefone);
 
                 Assert.NotNull(usuario1.EnderecoResponse);
                 Assert.Equal("09321-250", usuario1.EnderecoResponse.CEP);
@@ -243,7 +245,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(usuario2);
                 Assert.Equal("Renan", usuario2.Nome);
                 Assert.Equal("renan@teste.com", usuario2.Email);
-                Assert.Equal("(11)97499-1481", usuario2.Telefone);
+                Assert.Equal("11974991481", usuario2.Telefone);
 
                 Assert.NotNull(usuario2.EnderecoResponse);
                 Assert.Equal("09321-250", usuario2.EnderecoResponse.CEP);
@@ -271,7 +273,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -292,7 +294,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -316,7 +318,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     cfg.AddProfile(new UsuarioProfiles());
                 });
 
-                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config));
+                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
                 // Act
                 var result = await usuarioService.BuscarUsuarioPorIdAsync(2);
@@ -325,7 +327,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.NotNull(result);
                 Assert.Equal("Renan", result.Nome);
                 Assert.Equal("renan@teste.com", result.Email);
-                Assert.Equal("(11)97499-1481", result.Telefone);
+                Assert.Equal("11974991481", result.Telefone);
 
                 Assert.NotNull(result.EnderecoResponse);
                 Assert.Equal("09321-250", result.EnderecoResponse.CEP);
@@ -353,7 +355,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 1,
                     Nome = "Jose",
                     Email = "jose@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -374,7 +376,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     UsuarioId = 2,
                     Nome = "Renan",
                     Email = "renan@teste.com",
-                    Telefone = "(11)97499-1481"
+                    Telefone = "11974991481"
                 });
 
                 context.Enderecos.Add(new Endereco
@@ -398,7 +400,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                     cfg.AddProfile(new UsuarioProfiles());
                 });
 
-                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config));
+                var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
                 //Act
                 await usuarioService.RemoverUsuarioAsync(2);

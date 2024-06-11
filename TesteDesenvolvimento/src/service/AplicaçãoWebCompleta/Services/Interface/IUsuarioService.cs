@@ -1,4 +1,5 @@
-﻿using AplicaçãoWebCompleta.Models.Request;
+﻿using AplicaçãoWebCompleta.Data.Table;
+using AplicaçãoWebCompleta.Models.Request;
 using AplicaçãoWebCompleta.Models.Response;
 
 namespace AplicaçãoWebCompleta.Services.Interface
@@ -10,5 +11,6 @@ namespace AplicaçãoWebCompleta.Services.Interface
         Task<IEnumerable<UsuarioResponse>> ListarUsuarioAsync();
         Task<UsuarioResponse> BuscarUsuarioPorIdAsync(int id);
         Task RemoverUsuarioAsync(int id);
+        Task<ConsultaCep> ConsultarCepAsync(string cep);
     }
 }

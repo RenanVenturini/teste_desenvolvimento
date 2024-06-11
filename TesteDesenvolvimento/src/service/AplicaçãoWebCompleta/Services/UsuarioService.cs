@@ -13,11 +13,13 @@ namespace AplicaçãoWebCompleta.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
+        private readonly IConsultaCep _consultaCep;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper, IConsultaCep consultaCep)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
+            _consultaCep = consultaCep;
         }
 
         public async Task CriarUsuarioAsync(UsuarioRequest usuarioRequest)
@@ -61,6 +63,30 @@ namespace AplicaçãoWebCompleta.Services
             var usuario = await _usuarioRepository.BuscarUsuarioPorIdAsync(id);
 
             await _usuarioRepository.RemoverUsuarioAsync(usuario);
+        }
+
+        public async Task<ConsultaCep> ConsultarCepAsync(string cep)
+        {
+            var cepRequest = new ConsultaCepRequest { CEP = cep };
+
+            // Validar o CEP usando FluentValidation
+            var validator = new ConsultaCepRequestValidator().Validate(cepRequest);
+
+            if (!validator.IsValid)
+                throw new BadHttpRequestException(validator.Errors.FirstOrDefault()?.ErrorMessage ?? "CEP inválido.");
+
+            try
+            {
+                var endereco = await _consultaCep.GetCepAsync(cep);
+                if (endereco == null || string.IsNullOrWhiteSpace(endereco.CEP))
+                    throw new ArgumentException("O CEP fornecido não foi encontrado.");
+
+                return endereco;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Não foi possível consultar o CEP. Detalhes: " + ex.Message, ex);
+            }
         }
     }
 }

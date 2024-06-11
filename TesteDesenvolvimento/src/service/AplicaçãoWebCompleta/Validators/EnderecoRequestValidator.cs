@@ -9,7 +9,7 @@ namespace AplicaçãoWebCompleta.Validators
         {
             RuleFor(e => e.CEP)
                 .NotEmpty().WithMessage("O CEP é obrigatório.")
-                .Matches(@"^\d{5}-\d{3}$").WithMessage("O CEP deve estar no formato XXXXX-XXX.");
+                .Matches(@"^\d{8}$").WithMessage("O CEP deve conter exatamente 8 dígitos numéricos.");
 
             RuleFor(e => e.Rua)
                 .NotEmpty().WithMessage("A Rua é obrigatória.")

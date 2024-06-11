@@ -8,11 +8,13 @@ namespace AplicaçãoWebCompleta.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-       private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioService _usuarioService;
+        private readonly IConsultaCep _consultaCep;
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public UsuarioController(IUsuarioService usuarioService, IConsultaCep consultaCep)
         {
             _usuarioService = usuarioService;
+            _consultaCep = consultaCep;
         }
 
         [HttpPost("adicionar")]
@@ -48,6 +50,13 @@ namespace AplicaçãoWebCompleta.Controllers
         {
             await _usuarioService.RemoverUsuarioAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("consulta-cep/{cep}")]
+        public async Task<IActionResult> ConsultarCepAsync(string cep)
+        {
+            var endereco = await _usuarioService.ConsultarCepAsync(cep);
+            return Ok(endereco);
         }
     }
 }

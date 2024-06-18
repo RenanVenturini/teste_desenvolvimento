@@ -7,6 +7,6 @@ namespace AplicaçãoWebCompleta.Models.Request
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Telefone { get; set; }
-        public EnderecoRequest EnderecoRequest { get; set; }
+        public EnderecoRequest Endereco { get; set; }
     }
 }

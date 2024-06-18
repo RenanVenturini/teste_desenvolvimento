@@ -69,7 +69,6 @@ namespace AplicaçãoWebCompleta.Services
         {
             var cepRequest = new ConsultaCepRequest { CEP = cep };
 
-            // Validar o CEP usando FluentValidation
             var validator = new ConsultaCepRequestValidator().Validate(cepRequest);
 
             if (!validator.IsValid)
@@ -78,14 +77,14 @@ namespace AplicaçãoWebCompleta.Services
             try
             {
                 var endereco = await _consultaCep.GetCepAsync(cep);
-                if (endereco == null || string.IsNullOrWhiteSpace(endereco.CEP))
+                if (endereco == null || string.IsNullOrWhiteSpace(endereco?.CEP))
                     throw new ArgumentException("O CEP fornecido não foi encontrado.");
 
                 return endereco;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("Não foi possível consultar o CEP. Detalhes: " + ex.Message, ex);
+                throw;
             }
         }
     }

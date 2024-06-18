@@ -37,7 +37,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
                 .RuleFor(fake => fake.Telefone, "11974991481")
-                .RuleFor(fake => fake.EnderecoRequest, () => fakeEndereco.Generate());
+                .RuleFor(fake => fake.Endereco, () => fakeEndereco.Generate());
 
             var fakeUsuario = fakeUsuarioFaker.Generate();
 
@@ -65,13 +65,13 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal(fakeUsuario.Telefone, result.Telefone);
 
                 Assert.NotNull(result.Endereco);
-                Assert.Equal(fakeUsuario.EnderecoRequest.CEP, result.Endereco.CEP);
-                Assert.Equal(fakeUsuario.EnderecoRequest.Rua, result.Endereco.Rua);
-                Assert.Equal(fakeUsuario.EnderecoRequest.Numero, result.Endereco.Numero);
-                Assert.Equal(fakeUsuario.EnderecoRequest.Complemento, result.Endereco.Complemento);
-                Assert.Equal(fakeUsuario.EnderecoRequest.Bairro, result.Endereco.Bairro);
-                Assert.Equal(fakeUsuario.EnderecoRequest.Cidade, result.Endereco.Cidade);
-                Assert.Equal(fakeUsuario.EnderecoRequest.UF, result.Endereco.UF);
+                Assert.Equal(fakeUsuario.Endereco.CEP, result.Endereco.CEP);
+                Assert.Equal(fakeUsuario.Endereco.Rua, result.Endereco.Rua);
+                Assert.Equal(fakeUsuario.Endereco.Numero, result.Endereco.Numero);
+                Assert.Equal(fakeUsuario.Endereco.Complemento, result.Endereco.Complemento);
+                Assert.Equal(fakeUsuario.Endereco.Bairro, result.Endereco.Bairro);
+                Assert.Equal(fakeUsuario.Endereco.Cidade, result.Endereco.Cidade);
+                Assert.Equal(fakeUsuario.Endereco.UF, result.Endereco.UF);
             }
         }
 
@@ -94,7 +94,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 .RuleFor(fake => fake.Nome, "Renan")
                 .RuleFor(fake => fake.Email, "renan@teste.com")
                 .RuleFor(fake => fake.Telefone, "11974991481")
-                .RuleFor(fake => fake.AtualizarEnderecoRequest, () => fakeAtualizarEndereco.Generate());
+                .RuleFor(fake => fake.Endereco, () => fakeAtualizarEndereco.Generate());
 
             var fakeUsuarioAtualizado = fakeAtualizarUsuarioRequest.Generate();
 
@@ -147,13 +147,13 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal(fakeUsuarioAtualizado.Telefone, result.Telefone);
 
                 Assert.NotNull(result.Endereco);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.CEP, result.Endereco.CEP);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Rua, result.Endereco.Rua);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Numero, result.Endereco.Numero);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Complemento, result.Endereco.Complemento);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Bairro, result.Endereco.Bairro);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.Cidade, result.Endereco.Cidade);
-                Assert.Equal(fakeUsuarioAtualizado.AtualizarEnderecoRequest.UF, result.Endereco.UF);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.CEP, result.Endereco.CEP);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.Rua, result.Endereco.Rua);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.Numero, result.Endereco.Numero);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.Complemento, result.Endereco.Complemento);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.Bairro, result.Endereco.Bairro);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.Cidade, result.Endereco.Cidade);
+                Assert.Equal(fakeUsuarioAtualizado.Endereco.UF, result.Endereco.UF);
             }
         }
 
@@ -232,14 +232,14 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal("jose@teste.com", usuario1.Email);
                 Assert.Equal("11974991481", usuario1.Telefone);
 
-                Assert.NotNull(usuario1.EnderecoResponse);
-                Assert.Equal("09321-250", usuario1.EnderecoResponse.CEP);
-                Assert.Equal("Projetada", usuario1.EnderecoResponse.Rua);
-                Assert.Equal("100", usuario1.EnderecoResponse.Numero);
-                Assert.Equal("Casa", usuario1.EnderecoResponse.Complemento);
-                Assert.Equal("Jardim", usuario1.EnderecoResponse.Bairro);
-                Assert.Equal("Santo André", usuario1.EnderecoResponse.Cidade);
-                Assert.Equal("SP", usuario1.EnderecoResponse.UF);
+                Assert.NotNull(usuario1.Endereco);
+                Assert.Equal("09321-250", usuario1.Endereco.CEP);
+                Assert.Equal("Projetada", usuario1.Endereco.Rua);
+                Assert.Equal("100", usuario1.Endereco.Numero);
+                Assert.Equal("Casa", usuario1.Endereco.Complemento);
+                Assert.Equal("Jardim", usuario1.Endereco.Bairro);
+                Assert.Equal("Santo André", usuario1.Endereco.Cidade);
+                Assert.Equal("SP", usuario1.Endereco.UF);
 
                 var usuario2 = result.FirstOrDefault(x => x.Nome == "Renan");
                 Assert.NotNull(usuario2);
@@ -247,14 +247,14 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal("renan@teste.com", usuario2.Email);
                 Assert.Equal("11974991481", usuario2.Telefone);
 
-                Assert.NotNull(usuario2.EnderecoResponse);
-                Assert.Equal("09321-250", usuario2.EnderecoResponse.CEP);
-                Assert.Equal("Sofia", usuario2.EnderecoResponse.Rua);
-                Assert.Equal("118", usuario2.EnderecoResponse.Numero);
-                Assert.Equal("Casa", usuario2.EnderecoResponse.Complemento);
-                Assert.Equal("Maringa", usuario2.EnderecoResponse.Bairro);
-                Assert.Equal("Mauá", usuario2.EnderecoResponse.Cidade);
-                Assert.Equal("SP", usuario2.EnderecoResponse.UF);
+                Assert.NotNull(usuario2.Endereco);
+                Assert.Equal("09321-250", usuario2.Endereco.CEP);
+                Assert.Equal("Sofia", usuario2.Endereco.Rua);
+                Assert.Equal("118", usuario2.Endereco.Numero);
+                Assert.Equal("Casa", usuario2.Endereco.Complemento);
+                Assert.Equal("Maringa", usuario2.Endereco.Bairro);
+                Assert.Equal("Mauá", usuario2.Endereco.Cidade);
+                Assert.Equal("SP", usuario2.Endereco.UF);
             }
         }
 
@@ -329,14 +329,14 @@ namespace AplicaçãoWebCompletaTeste.Service
                 Assert.Equal("renan@teste.com", result.Email);
                 Assert.Equal("11974991481", result.Telefone);
 
-                Assert.NotNull(result.EnderecoResponse);
-                Assert.Equal("09321-250", result.EnderecoResponse.CEP);
-                Assert.Equal("Sofia", result.EnderecoResponse.Rua);
-                Assert.Equal("118", result.EnderecoResponse.Numero);
-                Assert.Equal("Casa", result.EnderecoResponse.Complemento);
-                Assert.Equal("Maringa", result.EnderecoResponse.Bairro);
-                Assert.Equal("Mauá", result.EnderecoResponse.Cidade);
-                Assert.Equal("SP", result.EnderecoResponse.UF);
+                Assert.NotNull(result.Endereco);
+                Assert.Equal("09321-250", result.Endereco.CEP);
+                Assert.Equal("Sofia", result.Endereco.Rua);
+                Assert.Equal("118", result.Endereco.Numero);
+                Assert.Equal("Casa", result.Endereco.Complemento);
+                Assert.Equal("Maringa", result.Endereco.Bairro);
+                Assert.Equal("Mauá", result.Endereco.Cidade);
+                Assert.Equal("SP", result.Endereco.UF);
             }
         }
 

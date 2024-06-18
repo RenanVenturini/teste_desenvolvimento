@@ -19,7 +19,7 @@ namespace AplicaçãoWebCompleta.Validators
                 .NotEmpty().WithMessage("O Telefone é obrigatório.")
                 .Matches(@"^\d{11}$").WithMessage("O Telefone deve conter exatamente 11 dígitos numéricos.");
 
-            RuleFor(u => u.EnderecoRequest)
+            RuleFor(u => u.Endereco)
                 .NotNull().WithMessage("O Endereço é obrigatório.")
                 .SetValidator(new EnderecoRequestValidator()); 
         }

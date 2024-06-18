@@ -1,6 +1,7 @@
 ﻿using AplicaçãoWebCompleta.Models.Request;
 using AplicaçãoWebCompleta.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AplicaçãoWebCompleta.Controllers
 {
@@ -9,29 +10,30 @@ namespace AplicaçãoWebCompleta.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
-        private readonly IConsultaCep _consultaCep;
+        private readonly IMemoryCache _memoryCache;
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-        public UsuarioController(IUsuarioService usuarioService, IConsultaCep consultaCep)
+        public UsuarioController(IUsuarioService usuarioService, IMemoryCache memoryCache)
         {
             _usuarioService = usuarioService;
-            _consultaCep = consultaCep;
+            _memoryCache = memoryCache;
         }
 
-        [HttpPost("adicionar")]
+        [HttpPost]
         public async Task<IActionResult> CriarUsuarioAsync(UsuarioRequest usuarioRequest)
         {
             await _usuarioService.CriarUsuarioAsync(usuarioRequest);
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        [HttpPut("atualizar")]
+        [HttpPut]
         public async Task<IActionResult> AtualizarUsuarioAsync(AtualizarUsuarioRequest atualizarUsuarioRequest)
         {
             await _usuarioService.AtualizarUsuarioAsync(atualizarUsuarioRequest);
             return StatusCode(StatusCodes.Status200OK);
         }
 
-        [HttpGet("listar")]
+        [HttpGet]
         public async Task<IActionResult> ListarUsuarioAsync()
         {
             var usuarios = await _usuarioService.ListarUsuarioAsync();
@@ -45,7 +47,7 @@ namespace AplicaçãoWebCompleta.Controllers
             return Ok(usuario);
         }
 
-        [HttpDelete("deletar")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> RemoverUsuarioAsync(int id)
         {
             await _usuarioService.RemoverUsuarioAsync(id);
@@ -55,7 +57,13 @@ namespace AplicaçãoWebCompleta.Controllers
         [HttpGet("consulta-cep/{cep}")]
         public async Task<IActionResult> ConsultarCepAsync(string cep)
         {
-            var endereco = await _usuarioService.ConsultarCepAsync(cep);
+            if (!_memoryCache.TryGetValue(cep, out var endereco))
+            {
+                endereco = await _usuarioService.ConsultarCepAsync(cep);
+
+                _memoryCache.Set(cep, endereco, CacheDuration);
+            }
+
             return Ok(endereco);
         }
     }

@@ -41,7 +41,7 @@ namespace AplicaçãoWebCompletaTeste.Service
 
             var fakeUsuario = fakeUsuarioFaker.Generate();
 
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
@@ -49,7 +49,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 cfg.AddProfile(new UsuarioProfiles());
             });
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
@@ -98,7 +98,7 @@ namespace AplicaçãoWebCompletaTeste.Service
 
             var fakeUsuarioAtualizado = fakeAtualizarUsuarioRequest.Generate();
 
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
@@ -106,7 +106,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 cfg.AddProfile(new UsuarioProfiles());
             });
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -131,7 +131,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioService = new UsuarioService(new UsuarioRepository(context), new Mapper(config), new Mock<IConsultaCep>().Object);
 
@@ -161,11 +161,11 @@ namespace AplicaçãoWebCompletaTeste.Service
         public async Task ListarUsuarioAsync()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -211,7 +211,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var config = new MapperConfiguration(cfg => {
                     cfg.AddProfile(new UsuarioProfiles());
@@ -262,11 +262,11 @@ namespace AplicaçãoWebCompletaTeste.Service
         public async Task BuscarUsuarioPorIdAsync()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -312,7 +312,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var config = new MapperConfiguration(cfg => {
                     cfg.AddProfile(new UsuarioProfiles());
@@ -344,11 +344,11 @@ namespace AplicaçãoWebCompletaTeste.Service
         public async Task RemoverUsuarioAsync()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -394,7 +394,7 @@ namespace AplicaçãoWebCompletaTeste.Service
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var config = new MapperConfiguration(cfg => {
                     cfg.AddProfile(new UsuarioProfiles());

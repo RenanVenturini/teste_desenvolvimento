@@ -35,11 +35,11 @@ namespace AplicaçãoWebCompletaTeste.Repository
 
             var fakeUsuario = fakeUsuarioFaker.Generate();
 
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioRepository = new UsuarioRepository(context);
 
@@ -89,11 +89,11 @@ namespace AplicaçãoWebCompletaTeste.Repository
 
             var fakeAtualizarUsuario = fakeAtualizarUsuarioFaker.Generate();
 
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -118,7 +118,7 @@ namespace AplicaçãoWebCompletaTeste.Repository
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioRepository = new UsuarioRepository(context);
 
@@ -147,11 +147,11 @@ namespace AplicaçãoWebCompletaTeste.Repository
         public async Task ListarUsuarioAsync()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -197,7 +197,7 @@ namespace AplicaçãoWebCompletaTeste.Repository
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioRepository = new UsuarioRepository(context);
 
@@ -244,11 +244,11 @@ namespace AplicaçãoWebCompletaTeste.Repository
         public async Task BuscarUsuarioPorIdAsync()
         {
             //Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
            .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {
@@ -294,7 +294,7 @@ namespace AplicaçãoWebCompletaTeste.Repository
                 await context.SaveChangesAsync();
             }
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 var usuarioRepository = new UsuarioRepository(context);
 
@@ -321,11 +321,11 @@ namespace AplicaçãoWebCompletaTeste.Repository
         public async Task RemoverUsuarioAsync()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AplicaçãoWebContext>()
+            var options = new DbContextOptionsBuilder<AplicacaoWebContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
-            using (var context = new AplicaçãoWebContext(options))
+            using (var context = new AplicacaoWebContext(options))
             {
                 context.Usuarios.Add(new CadastroUsuario
                 {

@@ -6,9 +6,9 @@ namespace AplicaçãoWebCompleta.Data.Repositoy
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly AplicaçãoWebContext _context;
+        private readonly AplicacaoWebContext _context;
 
-        public UsuarioRepository(AplicaçãoWebContext context)
+        public UsuarioRepository(AplicacaoWebContext context)
         {
             _context = context;
         }

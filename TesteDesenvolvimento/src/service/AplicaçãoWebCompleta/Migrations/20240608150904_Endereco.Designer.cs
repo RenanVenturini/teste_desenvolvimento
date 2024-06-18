@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AplicaçãoWebCompleta.Migrations
 {
-    [DbContext(typeof(AplicaçãoWebContext))]
+    [DbContext(typeof(AplicacaoWebContext))]
     [Migration("20240608150904_Endereco")]
     partial class Endereco
     {

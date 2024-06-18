@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AplicaçãoWebCompleta.Data
 {
-    public class AplicaçãoWebContext : DbContext
+    public class AplicacaoWebContext : DbContext
     {
-        public AplicaçãoWebContext(DbContextOptions<AplicaçãoWebContext> options) : base(options) { }
+        public AplicacaoWebContext(DbContextOptions<AplicacaoWebContext> options) : base(options) { }
 
         public DbSet<CadastroUsuario> Usuarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }

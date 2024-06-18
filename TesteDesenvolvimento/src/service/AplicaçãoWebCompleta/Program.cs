@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Refit;
 using System.Net;
 using Newtonsoft.Json;
+using AplicaçãoWebCompleta.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,5 +80,20 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<AplicacaoWebContext>();
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao aplicar migrações do banco de dados.");
+    }
+}
 
 app.Run();

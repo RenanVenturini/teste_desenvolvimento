@@ -7,9 +7,9 @@ namespace AplicaçãoWebCompleta.Configuration
     {
         public static void AddEntityFramework(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AplicaçãoWebContext>(options =>
+            services.AddDbContext<AplicacaoWebContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("AplicaçãoWebConnection"),
-                b => b.MigrationsAssembly(typeof(AplicaçãoWebContext).Assembly.FullName))
+                b => b.MigrationsAssembly(typeof(AplicacaoWebContext).Assembly.FullName))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors());
         }
